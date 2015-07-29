@@ -1,0 +1,17 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.0.0
+description: PhysicsJS CommonJS Module for Platino
+author: Well Caffeinated (http://wellcaffeinated.net), Packaged by Black Gate Games
+license: MIT
+copyright: 2015
+
+
+# these should not be edited
+name: io.platino.physicsjs
+moduleid: io.platino.physicsjs
+guid: 04a15200-2971-464b-936d-fc62b60213d0
+platform: commonjs
+minsdk: 2.5.0

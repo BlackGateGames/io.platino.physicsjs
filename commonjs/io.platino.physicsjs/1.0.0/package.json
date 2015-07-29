@@ -1,0 +1,9 @@
+{
+    "description": "PhysicsJS CommonJS Module for Platino",
+    "directories": {
+        "lib": "."
+    },
+    "main": "io.platino.physicsjs",
+    "name": "io.platino.physicsjs",
+    "version": "1.0.0"
+}

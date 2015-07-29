@@ -1,0 +1,9 @@
+{
+    "description": "Chipmunk Physics Debug Draw Module",
+    "directories": {
+        "lib": "."
+    },
+    "main": "co.lanica.chipmunk2d.debugdraw",
+    "name": "co.lanica.chipmunk2d.debugdraw",
+    "version": "1.0.0"
+}
