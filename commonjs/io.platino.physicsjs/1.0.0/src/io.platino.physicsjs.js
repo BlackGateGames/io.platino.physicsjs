@@ -3544,6 +3544,13 @@ Physics.scratchpad = (function(){
             });
             this.options( options );
 
+			/**
+			 * Body#sprite
+			 * 
+			 * Associated Platino sprite. If set, will update to match physics object ons step
+			 */
+			this.sprite = null;
+			
             /**
              * Body#state
              *
@@ -3787,6 +3794,21 @@ Physics.scratchpad = (function(){
             scratch.done();
         },
 
+        
+        /**
+         * Body#updateSprite -> this
+         * 
+         * On every step, if there is an associated sprite, this will reposition it
+         */
+        updateSprite: function() {
+        	if(this.sprite) {
+				this.sprite.centerX = this.state.pos.x;
+				this.sprite.centerY = this.state.pos.y;
+				this.sprite.rotate(this.state.angular.pos  * (180/Math.PI)); // physicsjs uses radians, so convert
+        	}
+        	return this;
+        },
+        
         /**
          * Body#setWorld( world ) -> this
          * - world (Object): The world (or null)
@@ -3796,13 +3818,17 @@ Physics.scratchpad = (function(){
          * Usually this is called internally. Shouldn't be a need to call this yourself usually.
          **/
         setWorld: function( world ){
-
-            if ( this.disconnect && this._world ){
-                this.disconnect( this._world );
-            }
+			if(this._world) {
+            	this._world.off("step", this.updateSprite);
+	            if ( this.disconnect ){
+	                this.disconnect( this._world );
+	            }
+			}
 
             this._world = world;
 
+        	this._world.on("step", this.updateSprite, this);
+        	
             if ( this.connect && world ){
                 this.connect( world );
             }
@@ -5312,6 +5338,11 @@ Physics.geometry.nearestPointOnLine = function nearestPointOnLine( pt, linePt1, 
             this._lastTime = now;
 
             this.emit('step', meta);
+            
+           // this.getBodies().forEach(function(body) {
+            //	body.updateSprite();
+           // });
+            
             return this;
         },
 
