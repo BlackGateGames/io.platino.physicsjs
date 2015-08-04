@@ -3818,22 +3818,22 @@ Physics.scratchpad = (function(){
          * Usually this is called internally. Shouldn't be a need to call this yourself usually.
          **/
         setWorld: function( world ){
-			if(this._world) {
-            	this._world.off("step", this.updateSprite);
-	            if ( this.disconnect ){
-	                this.disconnect( this._world );
-	            }
-			}
+            if(this._world) {
+                this._world.off("step", this.updateSprite);
+                if ( this.disconnect ){
+                    this.disconnect( this._world );
+                }
+            }
 
             this._world = world;
 
-        	this._world.on("step", this.updateSprite, this);
-        	
-            if ( this.connect && world ){
-                this.connect( world );
-            }
+            if(this._world) {
+                this._world.on("step", this.updateSprite, this);
 
-            return this;
+                if ( this.connect ){
+                    this.connect( this._world );
+                }
+            }
         },
 
         /**
@@ -5251,17 +5251,17 @@ Physics.geometry.nearestPointOnLine = function nearestPointOnLine( pt, linePt1, 
 		 * Step the world BY a specified change in time
 		 */
 		stepDelta: function(dt) {
-            // if it's paused, don't step
-            // or if it's the first step...
+            // If paused or at the first step, calculate the appropriate time
             if ( this._paused || this._animTime === undefined ){
                 this._animTime = this._animTime || new Date();
+            }
 
-                if ( !this._paused ){
-                    this.emit('step', this._meta);
-                }
+            // Do nothing while paused
+            if(this._paused) {
                 return this;
             }
 
+            // Otherwise increment the current animation time and step normally
             return this.step(this._animTime.valueOf() + dt);
 		},
 		
